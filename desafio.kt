@@ -1,10 +1,11 @@
 // [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
 
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+enum class Categoria { PROGRAMACAO, ARQUITETURA, INFRAESTRUTURA }
 
-class Usuario(val nome: String, val sobrenome: String, val nivel: Nivel)
+class Usuario(val nome: String, val sobrenome: String, val categoria: Categoria)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60, val nivel: Nivel)
+data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
 
 data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>,val nivel: Nivel) {
 
@@ -14,7 +15,8 @@ data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>,v
 
     fun buscaAluno() {
         for(usuarioCadastrado in inscritos){
-            println("O usuario ${usuarioCadastrado.nome+" "+usuarioCadastrado.sobrenome} foi matriculado com sucesso")
+            println("O usuario ${usuarioCadastrado.nome+" "+usuarioCadastrado.sobrenome} foi matriculado com sucesso," +
+                    " em bootcamp na categoria de ${usuarioCadastrado.categoria}!")
             }
     }
 
@@ -26,33 +28,50 @@ data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>,v
 }
 
 fun main() {
+        val conteudoJava = ConteudoEducacional("Java Efetivo", 60)
+        val conteudoEngenharia = ConteudoEducacional("Clean Code", 20)
+        val conteudoArquitetura = ConteudoEducacional("Clean Archictecture", 30)
+        val conteudoKotlin = ConteudoEducacional("Kotlin", 40)
+        val conteudoGolang = ConteudoEducacional("Golang", 50)
+        val conteudoJavascript = ConteudoEducacional("Javascript", 60)
 
-        val conteudoBasico = ConteudoEducacional("Java Efetivo", 60, Nivel.BASICO)
-        val conteudoInterm = ConteudoEducacional("Clean Code", 60, Nivel.INTERMEDIARIO)
-        val conteudoAvanc = ConteudoEducacional("Clean Archictecture", 60, Nivel.DIFICIL)
+        val usuarioProgram = Usuario("Gustavo", "Paulo", Categoria.PROGRAMACAO)
+        val usuarioArq = Usuario("Pedro", "Alves", Categoria.ARQUITETURA)
+        val usuarioInfra = Usuario("Carla", "Almeida", Categoria.INFRAESTRUTURA)
 
-        val usuarioBasico = Usuario("Gustavo", "Paulo", Nivel.BASICO)
-        val usuarioInterm = Usuario("Pedro", "Alves", Nivel.INTERMEDIARIO)
-        val usuarioAvanc = Usuario("Carla", "Almeida", Nivel.DIFICIL)
+        val formacaoJava = Formacao("Bootcamp Java Beginners Ifood", listOf(conteudoJava, conteudoEngenharia), Nivel.BASICO)
 
-        val formacao1 = Formacao("Bootcamp Java Beginners Ifood", listOf(conteudoBasico, conteudoInterm, conteudoAvanc), Nivel.BASICO)
+        formacaoJava.matricular(usuarioProgram)
 
-        formacao1.matricular(usuarioBasico)
-        formacao1.matricular(usuarioInterm)
-        formacao1.matricular(usuarioAvanc)
+        formacaoJava.buscaAluno()
+        formacaoJava.buscaConteudo()
 
-        formacao1.buscaAluno()
-        formacao1.buscaConteudo()
+        println(formacaoJava)
 
-        println(formacao1)
+        val formacaoJavaAtual = formacaoJava.copy(nome = "Bootcamp Carrefour")
+        println(formacaoJavaAtual)
+        println("______________________________________________________")
 
-        val formacao2 = formacao1.copy(nome = "Bootcamp Carrefour")
-        println(formacao2)
+        val formacaoSeguranca = Formacao("Bootcamp Cyber Security", listOf(conteudoKotlin, conteudoGolang,
+            conteudoJavascript, conteudoArquitetura, conteudoEngenharia), Nivel.DIFICIL)
+        println(formacaoSeguranca)
 
-        val formacao3 = formacao1.copy(nome = "Bootcamp Cyber Security")
-        println(formacao3)
+        formacaoSeguranca.matricular(usuarioProgram)
+        formacaoSeguranca.matricular(usuarioArq)
+        formacaoSeguranca.matricular(usuarioInfra)
 
-        val formacao4 = formacao1.copy(nome = "Bootcamp Orange Tech")
-        println(formacao4)
+        formacaoSeguranca.buscaAluno()
+        formacaoSeguranca.buscaConteudo()
+
+        println("______________________________________________________")
+
+        val formacaoDevOps = Formacao("Bootcamp Orange Tech", listOf(conteudoJavascript, conteudoKotlin,
+            conteudoJava), Nivel.INTERMEDIARIO)
+        formacaoDevOps.matricular(usuarioInfra)
+        formacaoDevOps.matricular(usuarioArq)
+
+        formacaoDevOps.buscaAluno()
+        formacaoDevOps.buscaConteudo()
+        println(formacaoDevOps)
 
 }
